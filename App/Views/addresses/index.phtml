@@ -32,7 +32,7 @@
                         <td>
                             <div class="btn-group" role="group" aria-label="Actions">
                                 <a class="btn btn-secondary btn-sm" href="<?php echo URL . 'addreses/edit/' . html_escape($address->id); ?>">edit</a>
-                                <a class="btn btn-danger btn-sm" href="<?php echo URL . 'addreses/delete/' . html_escape($address->id); ?>">delete</a>
+                                <a class="btn btn-danger btn-sm" onclick="confirmDelete('<?=URL . 'addreses/delete/' . html_escape($address->id)?>')" href="javascript:void(0)">delete</a>
                             </div>
                         </td>
                     </tr>
