@@ -1,28 +1,49 @@
 <div class="d-flex bd-highlight mb-3">
-    <div class="me-auto p-2 bd-highlight"><h2>Customers</div>
+    <div class="me-auto p-2 bd-highlight"><h2>Edit Address</div>
     <div class="p-2 bd-highlight">
-        <a class="btn btn-secondary btn-sm" href="<?=URL . 'customers'; ?>">Back</a>
+        <a class="btn btn-secondary btn-sm" href="<?=URL . 'addreses'; ?>">Back</a>
     </div>
 </div>
 
 
-<form action="<?php echo URL; ?>customers/update/<?php echo html_escape($customer->id)?>" method="POST">
+<form action="<?php echo URL; ?>addreses/update/<?php echo html_escape($address->id)?>" method="POST">
     <table class="table table-hover table-stripped">
         <tr>
-            <td><label>Name</label></td>
-            <td><input class="form-control" type="text" name="name" value="<?php echo html_escape($customer->name)?>" required /></td>
+            <td><label>Customer</label></td>
+            <td>
+                <select class="form-select" name="customer_id" aria-label="Select a customer" required>
+                    <option value="" selected>Select a customer</option>
+                    <?php
+                    foreach ($customers as $customer) {
+                        echo "<option value='" . html_escape($customer->id) . "' " . selected($customer->id, $address->customer_id) . ">" . html_escape($customer->name) . "</option>";
+                    }
+                    ?>  
+                </select>
+            </td>
         </tr>
         <tr>
-            <td><label>E-mail</label></td>
-            <td><input class="form-control" type="email" name="email" value="<?php echo html_escape($customer->email)?>" required /></td>
+            <td><label>Description</label></td>
+            <td><input class="form-control" type="text" name="description" value="<?php echo html_escape($address->description)?>" required /></td>
         </tr>
         <tr>
-            <td><label>Phone</label></td>
-            <td><input class="form-control" type="tel" name="phone" value="<?php echo html_escape($customer->phone)?>" required /></td>
+            <td><label>Address</label></td>
+            <td><input class="form-control" type="text" name="address" value="<?php echo html_escape($address->address)?>" required /></td>
         </tr>
         <tr>
-            <td><label>Bith Date</label></td>
-            <td><input class="form-control" type="date" name="birth_date" value="<?php echo html_escape($customer->birth_date)?>" required /></td>
+            <td><label>Country</label></td>
+            <td><input class="form-control" type="text" name="country" value="<?php echo html_escape($address->country)?>" required /></td>
+        </tr>
+        <tr>
+            <td><label>State</label></td>
+            <td><input class="form-control" type="text" name="state" value="<?php echo html_escape($address->state)?>" required /></td>
+        </tr>
+        <tr>
+            <td><label>City</label></td>
+            <td><input class="form-control" type="text" name="city" value="<?php echo html_escape($address->city)?>" required /></td>
+        </tr>
+        <tr>
+            <td><label>zipcode</label></td>
+            <td><input class="form-control" type="number" name="zipcode" value="<?php echo html_escape($address->zipcode)?>" required /></td>
         </tr>
         <tr>
             <td></td>

@@ -122,11 +122,13 @@ class BaseModel extends Connection
             return false;
         }
 
-        $columnString = implode(',', array_keys($data));
-        $valueString = ":" . implode(',:', array_keys($data));
+        $inputData = $this->checkInputFields($data);
+
+        $columnString = implode(',', array_keys($inputData));
+        $valueString = ":" . implode(',:', array_keys($inputData));
         $sql = "INSERT INTO {$this->table} ({$columnString}) VALUES ({$valueString})";
         $query = $this->pdo->prepare($sql);
-        foreach ($data as $key => $val) {
+        foreach ($inputData as $key => $val) {
             $query->bindValue(':' . $key, $val);
         }
         $insert = $query->execute();
@@ -146,7 +148,9 @@ class BaseModel extends Connection
             return false;
         }
 
-        $colvalSet = $this->_setCampos($data);
+        $colvalSet = $this->_setCampos(
+            $this->checkInputFields($data)
+        );
         $whereSql = $this->_setConditions($conditions);
 
         $sql = "UPDATE {$this->table} SET {$colvalSet} {$whereSql}";
@@ -167,5 +171,22 @@ class BaseModel extends Connection
         $sql = "DELETE FROM {$this->table} {$whereSql}";
         $delete = $this->pdo->exec($sql);
         return $delete ? $delete : false;
+    }
+
+    /**
+     * Método para definir os campos que serão para o insert ou update
+     *
+     * @param array $data
+     * @return array
+     */
+    private function checkInputFields(array $data = [])
+    {
+        $data_new = [];
+        foreach ($this->fields as $field) {
+            if (array_key_exists($field, $data)) {
+                $data_new[$field] = $data[$field];
+            }
+        }
+        return $data_new;
     }
 }

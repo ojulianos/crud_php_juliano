@@ -3,15 +3,18 @@
 namespace App\Controllers;
 
 use App\Models\Addres;
+use App\Models\Customer;
 use Core\BaseController;
 
 class AddresesController extends BaseController
 {
     private Addres $addresses;
+    private Customer $customers;
 
     public function __construct()
     {
         $this->addresses = new Addres();
+        $this->customers = new Customer();
     }
 
     public function index()
@@ -26,23 +29,26 @@ class AddresesController extends BaseController
 
     public function add()
     {
+        $customers = $this->customers->getData();
+
         $this->view(
-            'addresses/add'
+            'addresses/add', compact('customers')
         );
     }
 
     public function save()
     {
         if($this->addresses->insertData($_POST))
-            header('Location: ' . URL . 'addresses');
+            header('Location: ' . URL . 'addreses');
     }
 
     public function edit($id)
     {
+        $customers = $this->customers->getData();
         $address = $this->addresses->getOne(['id' => $id]);
 
         $this->view(
-            'addresses/edit', compact('address')
+            'addresses/edit', compact('address', 'customers')
         );
     }
 
@@ -51,13 +57,13 @@ class AddresesController extends BaseController
         $this->addresses->updateData(
             $_POST, ['id' => $id]
         );
-        header('Location: ' . URL . 'addresses');
+        header('Location: ' . URL . 'addreses');
 
     }
 
     public function delete($id)
     {
         $this->addresses->deleteData(['id' => $id]);
-        header('Location: ' . URL . 'addresses');
+        header('Location: ' . URL . 'addreses');
     }
 }
