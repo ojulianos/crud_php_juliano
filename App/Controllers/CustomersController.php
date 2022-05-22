@@ -92,7 +92,7 @@ class CustomersController extends BaseController
             }
 
             $this->customers->updateData(
-                $_POST, ['id' => $id]
+                $_POST, ['id' => $customer->id]
             );
         }
         header('Location: ' . URL . 'customers');
