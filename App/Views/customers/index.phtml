@@ -1,0 +1,59 @@
+<div class="d-flex bd-highlight mb-3">
+    <div class="me-auto p-2 bd-highlight"><h2>Customers</div>
+    <div class="p-2 bd-highlight">
+        <a class="btn btn-primary btn-sm" href="<?=URL . 'customers/add'; ?>">Create</a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Birth Date</th>
+                <th scope="col">Email</th>
+                <th scope="col">Addresses</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if($customers) {
+                foreach ($customers as $customer) {
+            ?>
+                    <tr>
+                        <td><?php if (isset($customer['user']->name)) echo html_escape($customer['user']->name); ?></td>
+                        <td><?php if (isset($customer['user']->phone)) echo html_escape($customer['user']->phone); ?></td>
+                        <td><?php if (isset($customer['user']->birth_date)) echo html_escape($customer['user']->birth_date); ?></td>
+                        <td><?php if (isset($customer['user']->email)) echo html_escape($customer['user']->email); ?></td>
+                        <td>
+                            <?php
+                            if($customer['addresses']) {
+                                foreach ($customer['addresses'] as $address) {
+                                    echo '<b>' . html_escape($address->description) . ':</b><br> ' . html_escape($address->address) . ' - 
+                                    ' . html_escape($address->country) . ' - 
+                                    ' . html_escape($address->city) . ' - 
+                                    ' . html_escape($address->state) . ' - 
+                                    ' . html_escape($address->zipcode) . '<br>';
+                                }
+                            } else {
+                                echo '<span class="text-muted">No addresses</span>';
+                            } ?>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                <a class="btn btn-secondary btn-sm" href="<?php echo URL . 'customers/edit/' . html_escape($customer['user']->id); ?>">edit</a>
+                                <a class="btn btn-danger btn-sm" href="<?php echo URL . 'customers/delete/' . html_escape($customer['user']->id); ?>">delete</a>
+                            </div>
+                        </td>
+                    </tr>
+            <?php 
+                }
+            } else {
+                echo '<tr><td colspan="5">No customers found</td></tr>';
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+<div class="text-left"><b>Total: <?php echo $total; ?></b></div>

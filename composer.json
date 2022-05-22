@@ -1,0 +1,25 @@
+{
+    "name": "mvc/crud_juliano",
+    "description": "Simples MVC para teste",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+      {
+        "name": "Juliano Silva",
+        "email": "juliano.sil6@gmail.com"
+      }
+    ],
+    "require": {
+      "php": ">=7.4"
+    },
+    "autoload": {
+      "psr-4": {
+        "App\\": "App/",
+        "Core\\": "Core/"
+      },
+      "files": [
+        "Core/ConfigLoader.php",
+        "Core/HelperLoader.php"
+      ]
+    }
+  }

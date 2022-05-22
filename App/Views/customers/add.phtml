@@ -1,0 +1,32 @@
+<div class="d-flex bd-highlight mb-3">
+    <div class="me-auto p-2 bd-highlight"><h2>Customers</div>
+    <div class="p-2 bd-highlight">
+        <a class="btn btn-secondary btn-sm" href="<?=URL . 'customers'; ?>">Back</a>
+    </div>
+</div>
+
+
+<form action="<?php echo URL; ?>customers/save" method="POST">
+    <table class="table table-hover table-stripped">
+        <tr>
+            <td><label>Name</label></td>
+            <td><input class="form-control" type="text" name="name" value="" required /></td>
+        </tr>
+        <tr>
+            <td><label>E-mail</label></td>
+            <td><input class="form-control" type="email" name="email" value="" required /></td>
+        </tr>
+        <tr>
+            <td><label>Phone</label></td>
+            <td><input class="form-control" type="tel" name="phone" value="" required /></td>
+        </tr>
+        <tr>
+            <td><label>Bith Date</label></td>
+            <td><input class="form-control" type="date" name="birth_date" value="" required /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="submit" class="btn btn-primary btn-sm">Save</button></td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,44 @@
+<div class="d-flex bd-highlight mb-3">
+    <div class="me-auto p-2 bd-highlight"><h2>Addresses</div>
+    <div class="p-2 bd-highlight">
+        <a class="btn btn-primary btn-sm" href="<?=URL . 'address/add'; ?>">Create</a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Birth Date</th>
+                <th scope="col">Email</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if($addresses) {
+                foreach ($addresses as $address) {
+            ?>
+                    <tr>
+                        <td><?php if (isset($address->name)) echo html_escape($address->name); ?></td>
+                        <td><?php if (isset($address->phone)) echo html_escape($address->phone); ?></td>
+                        <td><?php if (isset($address->phone)) echo html_escape($address->birth_date); ?></td>
+                        <td><?php if (isset($address->email)) echo html_escape($address->email); ?></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                <a class="btn btn-secondary btn-sm" href="<?php echo URL . 'address/edit/' . html_escape($address->id); ?>">edit</a>
+                                <a class="btn btn-danger btn-sm" href="<?php echo URL . 'address/delete/' . html_escape($address->id); ?>">delete</a>
+                            </div>
+                        </td>
+                    </tr>
+            <?php 
+                }
+            } else {
+                echo '<tr><td colspan="5">No addresses found</td></tr>';
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+<div class="text-left"><b>Total: <?php echo $total; ?></b></div>
