@@ -43,7 +43,7 @@
                         <td>
                             <div class="btn-group" role="group" aria-label="Actions">
                                 <a class="btn btn-secondary btn-sm" href="<?php echo URL . 'customers/edit/' . html_escape($customer['user']->id); ?>">edit</a>
-                                <a class="btn btn-danger btn-sm" href="<?php echo URL . 'customers/delete/' . html_escape($customer['user']->id); ?>">delete</a>
+                                <a class="btn btn-danger btn-sm" onclick="confirmDelete('<?=URL . 'customers/delete/' . html_escape($customer['user']->id)?>')">delete</a>
                             </div>
                         </td>
                     </tr>
