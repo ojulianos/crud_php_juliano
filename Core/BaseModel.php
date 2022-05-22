@@ -73,10 +73,14 @@ class BaseModel extends Connection
      * @param array $conditions
      * @return object
      */
-    public function getOne(array $conditions = [])
+    public function getOne(string $id)
     {
         $this->return_type = 'single';
-
+        $conditions = [
+            'where' => [
+                $this->primary_key => $id
+            ]
+        ];
         return $this->getData($conditions);
     }
 

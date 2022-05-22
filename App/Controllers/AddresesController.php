@@ -45,7 +45,7 @@ class AddresesController extends BaseController
     public function edit($id)
     {
         $customers = $this->customers->getData();
-        $address = $this->addresses->getOne(['id' => $id]);
+        $address = $this->addresses->getOne($id);
 
         $this->view(
             'addresses/edit', compact('address', 'customers')

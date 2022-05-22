@@ -32,7 +32,7 @@ class CustomersController extends BaseController
         }
 
         $total = $this->customers->getCount();
-        $this->view(
+        return $this->view(
             'customers/index', compact('customers', 'total')
         );
     }
@@ -40,7 +40,7 @@ class CustomersController extends BaseController
     public function add()
     {
         $js = 'js/customer.js';
-        $this->view(
+        return $this->view(
             'customers/add', compact('js')
         );
     }
@@ -65,10 +65,11 @@ class CustomersController extends BaseController
 
     public function edit($id)
     {
-        if($customer = $this->customers->getOne(['id' => $id])) {
+        if($customer = $this->customers->getOne($id)) {
+            $addresses = $this->address->getData(['where' => ['customer_id' => $id]]);
             $js = 'js/customer.js';
-            $this->view(
-                'customers/edit', compact('customer', 'js')
+            return $this->view(
+                'customers/edit', compact('customer', 'addresses', 'js')
             );
         }
         header('Location: ' . URL . 'customers');
@@ -76,16 +77,30 @@ class CustomersController extends BaseController
 
     public function update($id)
     {
-        $this->customers->updateData(
-            $_POST, ['id' => $id]
-        );
+        if($customer = $this->customers->getOne($id)) {
+            for($i = 0; $i < count($_POST['description']); $i++) {
+                var_dump($_POST['description'][$i]);
 
+                $this->address->updateData([
+                    'description' => $_POST['description'][$i],
+                    'address' => $_POST['address'][$i],
+                    'country' => $_POST['country'][$i],
+                    'state' => $_POST['state'][$i],
+                    'city' => $_POST['city'][$i],
+                    'zipcode' => $_POST['zipcode'][$i]
+                ], ['id' => $_POST['address_id'][$i]]);
+            }
+
+            $this->customers->updateData(
+                $_POST, ['id' => $id]
+            );
+        }
         header('Location: ' . URL . 'customers');
     }
 
     public function delete($id)
     {
-        if($customer = $this->customers->getOne(['id' => $id])) {
+        if($customer = $this->customers->getOne($id)) {
             // Find all addresses of this customer
             $addresses = $this->address->getData(['where' => ['customer_id' => $customer->id]]);
             foreach($addresses as $address) {
