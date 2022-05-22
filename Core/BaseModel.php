@@ -106,7 +106,8 @@ class BaseModel extends Connection
      */
     public function nextId(string $field): int
     {
-        $proximo = $this->getOne([
+        $this->return_type = 'single';
+        $proximo = $this->getData([
             'select' => "{$field} as total",
             'order_by' => "{$field} DESC",
         ]);
