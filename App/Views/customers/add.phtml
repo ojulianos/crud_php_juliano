@@ -24,9 +24,60 @@
             <td><label>Bith Date</label></td>
             <td><input class="form-control" type="date" name="birth_date" value="" required /></td>
         </tr>
+
+        <tr>
+            <td colspan="2">
+                <h3>
+                    Addresses
+                    <button type="button" class="btn btn-warning btn-sm float-end" id="duplicate">Add Address</button>
+                </h3>
+                
+            </td>
+        </tr>
+    </table>
+
+
+    <div id="duplicater">
+        <table class="table table-hover table-stripped">
+            <tr>
+                <td colspan="2">Address</td>
+            </tr>
+            <tr>
+                <td><label>Description</label></td>
+                <td><input class="form-control" type="text" name="description[]" value="" required /></td>
+            </tr>
+            <tr>
+                <td><label>Address</label></td>
+                <td><input class="form-control" type="text" name="address[]" value="" required /></td>
+            </tr>
+            <tr>
+                <td><label>Country</label></td>
+                <td><input class="form-control" type="text" name="country[]" value="" required /></td>
+            </tr>
+            <tr>
+                <td><label>State</label></td>
+                <td><input class="form-control" type="text" name="state[]" value="" required /></td>
+            </tr>
+            <tr>
+                <td><label>City</label></td>
+                <td><input class="form-control" type="text" name="city[]" value="" required /></td>
+            </tr>
+            <tr>
+                <td><label>zipcode</label></td>
+                <td><input class="form-control" type="number" name="zipcode[]" value="" required /></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="duplicates">
+
+    </div>
+
+
+    <table>
         <tr>
             <td></td>
-            <td><button type="submit" class="btn btn-primary btn-sm">Save</button></td>
+            <td><button type="submit" class="btn btn-primary btn-sm" disabled>Save</button></td>
         </tr>
     </table>
 </form>

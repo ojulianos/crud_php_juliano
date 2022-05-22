@@ -22,11 +22,13 @@ class CustomersController extends BaseController
     {
         $all_customer = $this->customers->getData();
         $customers = [];
-        foreach($all_customer as $customer) {
-            $customers[] = [
-                'user' => $customer,
-                'addresses' => $this->address->getData(['where' => ['customer_id' => $customer->id]])
-            ];
+        if($all_customer) {
+            foreach($all_customer as $customer) {
+                $customers[] = [
+                    'user' => $customer,
+                    'addresses' => $this->address->getData(['where' => ['customer_id' => $customer->id]])
+                ];
+            }
         }
 
         $total = $this->customers->getCount();
@@ -37,23 +39,39 @@ class CustomersController extends BaseController
 
     public function add()
     {
+        $js = 'js/customer.js';
         $this->view(
-            'customers/add'
+            'customers/add', compact('js')
         );
     }
 
     public function save()
     {
-        if($this->customers->insertData($_POST))
+        if($customer = $this->customers->insertData($_POST)){
+            for($i = 0; $i < count($_POST['description']); $i++) {
+                $this->address->insertData([
+                    'customer_id' => $customer,
+                    'description' => $_POST['description'][$i],
+                    'address' => $_POST['address'][$i],
+                    'country' => $_POST['country'][$i],
+                    'state' => $_POST['state'][$i],
+                    'city' => $_POST['city'][$i],
+                    'zipcode' => $_POST['zipcode'][$i]
+                ]);
+            }
             header('Location: ' . URL . 'customers');
+        }
     }
 
     public function edit($id)
     {
-        $customer = $this->customers->getOne(['id' => $id]);
-        $this->view(
-            'customers/edit', compact('customer')
-        );
+        if($customer = $this->customers->getOne(['id' => $id])) {
+            $js = 'js/customer.js';
+            $this->view(
+                'customers/edit', compact('customer', 'js')
+            );
+        }
+        header('Location: ' . URL . 'customers');
     }
 
     public function update($id)
@@ -67,7 +85,17 @@ class CustomersController extends BaseController
 
     public function delete($id)
     {
-        $this->customers->deleteData(['id' => $id]);
+        if($customer = $this->customers->getOne(['id' => $id])) {
+            // Find all addresses of this customer
+            $addresses = $this->address->getData(['where' => ['customer_id' => $customer->id]]);
+            foreach($addresses as $address) {
+                // Delete all addresses of this customer
+                $this->address->deleteData(['id' => $address->id]);
+            }
+            // Delete customer
+            $this->customers->deleteData(['id' => $id]);
+            header('Location: ' . URL . 'customers');
+        }
         header('Location: ' . URL . 'customers');
     }
 }
